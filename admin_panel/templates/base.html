@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Админ-панель{% endblock %} - Бот</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Подключаем иконки Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            padding-top: 4.5rem;
+            /* Увеличили отступ для фикс. навбара */
+        }
+
+        .nav-link.active {
+            font-weight: bold;
+        }
+
+        .flash-messages .alert {
+            margin-top: 1rem;
+            /* Добавили отступ сверху для flash */
+            margin-bottom: 1rem;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
+
+        .action-buttons form,
+        .action-buttons .btn {
+            display: inline-block;
+            margin-left: 0.3rem;
+            margin-bottom: 0.3rem;
+            /* Добавим отступ снизу для мобилок */
+        }
+
+        .form-check-input {
+            margin-left: 0.5em;
+        }
+
+        .form-label {
+            margin-bottom: 0.2rem;
+            /* Уменьшим отступ у label */
+        }
+
+        .form-control,
+        .form-select {
+            margin-bottom: 0.8rem;
+            /* Добавим отступ снизу для полей */
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Админ-панель</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'users' %}active{% endif %}"
+                            href="{{ url_for('users') }}">Пользователи</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'whitelist' %}active{% endif %}"
+                            href="{{ url_for('whitelist') }}">Белый список</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'subscriptions' %}active{% endif %}"
+                            href="{{ url_for('subscriptions') }}">Отчеты по подпискам</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'broadcast_page' %}active{% endif %}"
+                            href="{{ url_for('broadcast_page') }}">Рассылка</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.endpoint == 'promocodes' %}active{% endif %}"
+                            href="{{ url_for('promocodes') }}">Промокоды</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    {% if session.get('logged_in') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Выйти</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+        <!-- Отображение flash-сообщений -->
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category if category in ['success', 'warning', 'danger', 'info'] else 'secondary' }} alert-dismissible fade show"
+                role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <!-- Основной контент страницы -->
+        {% block content %}
+        <div class="p-5 mb-4 bg-light rounded-3">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Добро пожаловать!</h1>
+                <p class="col-md-8 fs-4">Используйте навигацию выше для управления пользователями, белым списком и
+                    просмотра подписок.</p>
+            </div>
+        </div>
+        {% endblock %}
+    </main>
+
+    <!-- Подключаем Bootstrap JS Bundle (включает Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+
+</html>
+
+</html>

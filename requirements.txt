@@ -1,0 +1,15 @@
+aiogram>=3.0.0
+SQLAlchemy>=1.4.0
+python-dotenv>=0.19.0
+alembic>=1.7.0
+greenlet==3.0.3
+python-dateutil>=2.8.0
+aiohttp
+Flask>=2.0.0
+Flask-SQLAlchemy>=3.0.0
+Werkzeug>=2.0.0
+fastapi>=0.68.0
+uvicorn>=0.15.0
+python-jose[cryptography]>=3.3.0
+python-multipart>=0.0.5
+pyjwt>=2.3.0 
